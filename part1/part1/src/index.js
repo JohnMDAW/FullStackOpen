@@ -1,17 +1,40 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom";
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+const App = () => {
+  const a = 10
+  const b = 20
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+  return (
+    <div>
+      <p>{a} + {b} = {a+b}</p>
+      <Time />
+      <Hello name="John" age="200"/>
+    </div>
+  );
+};
+
+const Hello = (props) =>{
+  return (
+    <div>
+      <p>Hello {props.name}</p>
+      <p>Your age is {props.age}</p>
+    </div>
+  )
+}
+
+
+const Time = () => {
+  const now = new Date()
+  let hours = `${now.getHours()}`.padStart(2, "0")
+  let minutes = `${now.getMinutes()}`.padStart(2, "0")
+  let seconds = `${now.getSeconds()}`.padStart(2, "0")
+
+  return (
+    <div>
+      <p>Time: {hours}:{minutes}:{seconds}</p>
+    </div>
+  )
+};
+
+ReactDOM.render(<App />, document.querySelector("#root"));
