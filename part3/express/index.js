@@ -25,11 +25,30 @@ let notes = [
 ]
 
 app.get('/', (req, res) => {
-    res.send("Hello World")
+    res.send("Hello World!")
 })
 
 app.get('/api/notes', (req, res) => {
     res.json(notes)
+})
+// Return a note by id
+app.get('/api/notes/:id', (req, res) => {
+    const id = Number(req.params.id);
+    const note = notes.find(note => note.id === id)
+    if(note) {
+        res.json(note)
+    }else{
+        res.statusMessage = "Note not found";
+        res.status(404).end()
+    }
+})
+// Delete a note by id
+app.delete('/api/notes/:id', (req, res) => {
+    const id = Number(req.params.id)
+    notes = notes.filter( note => note.id !== id)
+    
+    res.status(204).end()
+
 })
 
 app.listen(PORT, () => {
