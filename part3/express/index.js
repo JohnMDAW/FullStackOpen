@@ -23,6 +23,8 @@ let notes = [
         important: true
     }
 ]
+app.use(express.json())
+
 
 app.get('/', (req, res) => {
     res.send("Hello World!")
@@ -31,6 +33,34 @@ app.get('/', (req, res) => {
 app.get('/api/notes', (req, res) => {
     res.json(notes)
 })
+
+const generateId = () => {
+    const maxId = notes.length > 0
+    ? Math.max(...notes.map(n => n.id ))
+    : 0 
+    return maxId + 1 
+}
+
+app.post('/api/notes', (req, res) => {
+    const body = req.body
+    if(!body.content){
+        return res.status(400).json({
+            error: "content missing"
+        })
+    }
+
+    // define the note structure
+    const note = {
+        id : generateId(),
+        content : body.content,
+        date : new Date(),
+        important : body.important || false, 
+    }
+
+    notes = notes.concat(note)
+    res.json(note)
+})
+
 // Return a note by id
 app.get('/api/notes/:id', (req, res) => {
     const id = Number(req.params.id);
@@ -49,6 +79,19 @@ app.delete('/api/notes/:id', (req, res) => {
     
     res.status(204).end()
 
+})
+
+app.post('/api/notes', (req, res) => {
+    const note = req.body
+    console.log(note)
+})
+app.post('/api/notes', (req, res) => {
+    const note = req.body
+    console.log(note)
+})
+app.post('/api/notes', (req, res) => {
+    const note = req.body
+    console.log(note)
 })
 
 app.listen(PORT, () => {
